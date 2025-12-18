@@ -1,10 +1,6 @@
-name: Build EXE
-
-
+name: Build-EXE
 
 on: [push]
-
-
 
 jobs:
 
@@ -12,17 +8,11 @@ jobs:
 
     runs-on: windows-latest
 
-
-
     steps:
 
-    - name: Checkout Code
+    - uses: actions/checkout@v3
 
-      uses: actions/checkout@v3
-
-
-
-    - name: Set up Python
+    - name: Setup Python
 
       uses: actions/setup-python@v4
 
@@ -30,9 +20,7 @@ jobs:
 
         python-version: '3.10'
 
-
-
-    - name: Install dependencies
+    - name: Install Libs
 
       run: |
 
@@ -40,17 +28,11 @@ jobs:
 
         pip install pyinstaller pandas openpyxl tkinterdnd2
 
+    - name: Create EXE
 
+      run: pyinstaller --onefile --noconsole --collect-all tkinterdnd2 --name "ExcelUpdater" main.py
 
-    - name: Build EXE
-
-      run: |
-
-        pyinstaller --onefile --noconsole --collect-all tkinterdnd2 --name "ExcelUpdater" main.py
-
-
-
-    - name: Upload EXE
+    - name: Upload
 
       uses: actions/upload-artifact@v3
 
